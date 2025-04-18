@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đánh giá khả năng tiết kiệm - Công cụ tư vấn ngân hàng</title>
+  <style>
+    :root {
+      --primary-color: #00529b; /* Màu xanh ngân hàng chuyên nghiệp */
+      --primary-hover: #003b6f;
+      --secondary-color: #f8b133; /* Màu vàng ngân hàng */
+      --background-color: #f5f7fa;
+      --card-background: #ffffff;
+      --text-color: #333333;
+      --border-color: #d1d5db;
+      --success-color: #0a8754;
+      --warning-color: #e67e22;
+      --danger-color: #e74c3c;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background-color: var(--card-background);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+    }
+    
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .logo {
+      width: 50px;
+      height: 50px;
+      background-color: var(--primary-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      margin-right: 15px;
+    }
+    
+    .title-container {
+      flex: 1;
+    }
+    
+    h1 {
+      color: var(--primary-color);
+      font-size: 1.8rem;
+      margin-bottom: 5px;
+    }
+    
+    .subtitle {
+      color: #666;
+      font-size: 0.9rem;
+    }
+    
+    .form-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    
+    .form-section {
+      flex: 1;
+      min-width: 300px;
+      background-color: #f9fafc;
+      border-radius: 8px;
+      padding: 20px;
+      border: 1px solid var(--border-color);
+    }
+    
+    .section-title {
+      font-size: 1.1rem;
+      color: var(--primary-color);
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0 -10px;
+    }
+    
+    .form-group {
+      padding: 0 10px;
+      margin-bottom: 20px;
+      flex: 0 0 100%;
+      width: 100%;
+    }
+    
+    .form-row .form-group {
+      flex: 0 0 50%;
+      width: 50%;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+    
+    input, select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 15px;
+      transition: all 0.3s;
+    }
+    
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(0, 82, 155, 0.15);
+    }
+    
+    .help-text {
+      display: block;
+      font-size: 0.8rem;
+      color: #666;
+      margin-top: 4px;
+    }
+    
+    button {
+      display: block;
+      width: 100%;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 20px;
+    }
+    
+    button:hover {
+      background-color: var(--primary-hover);
+    }
+    
+    .result {
+      margin-top: 30px;
+      padding: 20px;
+      border-radius: 8px;
+      background-color: #f0f7ff;
+      border: 1px solid #cce5ff;
+    }
+    
+    .result h2 {
+      margin-bottom: 15px;
+      color: var(--primary-color);
+      font-size: 1.3rem;
+    }
+    
+    .result-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    
+    .result-section {
+      flex: 1;
+      min-width: 250px;
+    }
+    
+    .result-item {
+      margin-bottom: 15px;
+    }
+    
+    .result-label {
+      font-weight: 600;
+      margin-bottom: 5px;
+      display: block;
+    }
+    
+    .result-value {
+      padding: 8px 12px;
+      background-color: white;
+      border-radius: 4px;
+      border: 1px solid #e1e1e1;
+    }
+    
+    .recommendation {
+      margin-top: 15px;
+      padding: 15px;
+      border-radius: 6px;
+    }
+    
+    .high-potential {
+      background-color: #d4edda;
+      border-left: 4px solid var(--success-color);
+    }
+    
+    .medium-potential {
+      background-color: #fff3cd;
+      border-left: 4px solid var(--warning-color);
+    }
+    
+    .low-potential {
+      background-color: #f8d7da;
+      border-left: 4px solid var(--danger-color);
+    }
+    
+    .recommendation-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #333;
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+      }
+      
+      .form-row .form-group {
+        flex: 0 0 100%;
+        width: 100%;
+      }
+      
+      .form-container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">NH</div>
+      <div class="title-container">
+        <h1>Đánh giá khả năng tiết kiệm</h1>
+        <p class="subtitle">Công cụ hỗ trợ tư vấn tài chính cho khách hàng</p>
+      </div>
+    </div>
+    
+    <form action="/" method="post">
+      <div class="form-container">
+        <div class="form-section">
+          <h3 class="section-title">Thông tin cá nhân</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="age">Tuổi:</label>
+              <input type="number" id="age" name="age" placeholder="Nhập tuổi khách hàng" required>
+              <span class="help-text">Tuổi của khách hàng (từ 18 trở lên)</span>
+            </div>
+            
+            <div class="form-group">
+              <label for="sex">Giới tính:</label>
+              <select id="sex" name="sex" required>
+                <option value="">-- Chọn giới tính --</option>
+                <option value="1">Nam</option>
+                <option value="0">Nữ</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="region">Khu vực sinh sống:</label>
+              <select id="region" name="region" required>
+                <option value="">-- Chọn khu vực --</option>
+                <option value="3">Thành phố lớn</option>
+                <option value="2">Thị xã/Thành phố nhỏ</option>
+                <option value="1">Ngoại ô</option>
+                <option value="0">Nông thôn</option>
+              </select>
+              <span class="help-text">Khu vực sinh sống ảnh hưởng đến chi phí và khả năng tiết kiệm</span>
+            </div>
+            
+            <div class="form-group">
+              <label for="married">Tình trạng hôn nhân:</label>
+              <select id="married" name="married" required>
+                <option value="">-- Chọn tình trạng --</option>
+                <option value="0">Đã kết hôn</option>
+                <option value="1">Độc thân</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="children">Số con:</label>
+            <input type="number" id="children" name="children" min="0" placeholder="Nhập số con" required>
+            <span class="help-text">Số lượng con cái phụ thuộc</span>
+          </div>
+        </div>
+        
+        <div class="form-section">
+          <h3 class="section-title">Thông tin tài chính</h3>
+          <div class="form-group">
+            <label for="income">Thu nhập hàng tháng:</label>
+            <input type="number" id="income" name="income" placeholder="Nhập thu nhập" required>
+            <span class="help-text">Thu nhập trung bình hàng tháng của khách hàng</span>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="car">Sở hữu xe hơi:</label>
+              <select id="car" name="car" required>
+                <option value="">-- Chọn --</option>
+                <option value="0">Có</option>
+                <option value="1">Không</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="mortgage">Có khoản vay thế chấp:</label>
+              <select id="mortgage" name="mortgage" required>
+                <option value="">-- Chọn --</option>
+                <option value="0">Có</option>
+                <option value="1">Không</option>
+              </select>
+              <span class="help-text">Khách hàng có đang trả khoản vay mua nhà không</span>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="save_act">Có tài khoản tiết kiệm:</label>
+              <select id="save_act" name="save_act" required>
+                <option value="">-- Chọn --</option>
+                <option value="0">Có</option>
+                <option value="1">Không</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="current_act">Có tài khoản thanh toán:</label>
+              <select id="current_act" name="current_act" required>
+                <option value="">-- Chọn --</option>
+                <option value="0">Có</option>
+                <option value="1">Không</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <button type="submit">Phân tích khả năng tiết kiệm</button>
+    </form>
+    
+    {% if prediction is defined %}
+    <div class="result">
+      <h2>Kết quả đánh giá khả năng tiết kiệm</h2>
+      
+      <div class="result-content">
+        <div class="result-section">
+          <div class="result-item">
+            <span class="result-label">Kết quả dự đoán:</span>
+            <div class="result-value" id="prediction-text">
+              {% if prediction == 0 %}
+                Có khả năng tham gia tiết kiệm dài hạn cá nhân
+              {% else %}
+                Không có khả năng tham gia tiết kiệm dài hạn cá nhân
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="recommendation {% if prediction == 0 %}high-potential{% else %}low-potential{% endif %}">
+        <div class="recommendation-title">Đề xuất tư vấn:</div>
+        {% if prediction == 0 %}
+        <p>Khách hàng có khả năng tham gia tiết kiệm dài hạn cá nhân. Nên tư vấn các gói sản phẩm tiết kiệm dài hạn có lãi suất ưu đãi.</p>
+        <p>Các sản phẩm phù hợp: Tiết kiệm có kỳ hạn 12 tháng trở lên, Tiết kiệm tích lũy tương lai, Tiết kiệm đầu tư.</p>
+        {% else %}
+        <p>Khách hàng không có khả năng tham gia tiết kiệm dài hạn cá nhân. Nên tư vấn các sản phẩm tiết kiệm ngắn hạn và linh hoạt hơn.</p>
+        <p>Các sản phẩm phù hợp: Tiết kiệm không kỳ hạn, Tiết kiệm linh hoạt, Tài khoản thanh toán có lãi suất.</p>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+</body>
+</html>
